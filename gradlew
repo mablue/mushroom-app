@@ -48,7 +48,7 @@ export APP_NAME
 export APP_BASE_NAME
 
 # Add default JVM options here. You can also use JAVA_OPTS and GRADLE_OPTS to pass JVM options to this script.
-DEFAULT_JVM_OPTS='" -Xmx64m" "-Xms64m"'
+DEFAULT_JVM_OPTS='-Xmx64m -Xms64m'
 
 # Use the maximum available, or set MAX_FD != "unlimited" if you encounter problems.
 if ! expr "$MAX_FD" : '[0-9]\+$' > /dev/null; then
@@ -105,7 +105,7 @@ do
     if
       case $arg in                                #(
         -*) false ;;                            # don't match the set variable in the case.
-        /) ;
+        /)
          { echo "$0": execution not found in $PATH; } 2>/dev/null
             exit 127
             ;;

@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Mushroom</string>
+    <string name="service_name">Mushroom Linux Engine</string>
+    <string name="channel_name">Mushroom Engine Service</string>
+    <string name="channel_desc">Foreground service for the Linux environment</string>
+    <string name="notification_text">Linux environment is running</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
+    <string name="desktop">Desktop</string>
+    <string name="terminal">Terminal</string>
+    <string name="resolution_label">Resolution</string>
+    <string name="memory_label">Memory Limit</string>
+    <string name="downloading">Downloading RootFS…</string>
+    <string name="extracting">Extracting RootFS…</string>
+    <string name="starting">Starting Linux environment…</string>
+    <string name="ready">Ready</string>
+    <string name="error_generic">An error occurred</string>
+    <string name="error_rootfs">RootFS download failed</string>
+</resources>

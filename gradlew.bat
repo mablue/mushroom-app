@@ -33,7 +33,7 @@ set APP_HOME=%DIRNAME%
 for %%i in ("%APP_HOME%") do set APP_HOME=%%~fi
 
 @rem Add default JVM options here. You can also use JAVA_OPTS and GRADLE_OPTS to pass JVM options to this script.
-set DEFAULT_JVM_OPTS="-Xmx64m" "-Xms64m"
+set DEFAULT_JVM_OPTS=" -Xmx64m" "-Xms64m"
 
 @rem Find java.exe
 if defined JAVA_HOME goto findJavaFromJavaHome
@@ -69,21 +69,24 @@ goto fail
 
 set CLASSPATH=%APP_HOME%\gradle\wrapper\gradle-wrapper.jar
 
-
 @rem Execute Gradle
 "%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %GRADLE_OPTS% "-Dorg.gradle.appname=%APP_BASE_NAME%" -classpath "%CLASSPATH%" org.gradle.wrapper.GradleWrapperMain %*
 
 :end
-@rem End local scope for the variables with windows NT shell
-if "%ERRORLEVEL%"=="0" goto mainEnd
+@endlocal & set ERROR_CODE=%ERRORCODE%
+
+if not "%ERRORCODE%" == "0" goto fail
+
+goto succeed
 
 :fail
-rem Set variable GRADLE_EXIT_CONSOLE if you want the _script_ to wait for the end of the user to press a key.
-rem set GRADLE_EXIT_CONSOLE=1
+rem Set variable ERRORCODE to non-zero on exit from SetLocal
+set ERROR_CODE=1
 
-exit /b %ERRORLEVEL%
+:succeed
+if "%ERROR_CODE%" == "0" goto mainEnd
 
 :mainEnd
 if "%OS%"=="Windows_NT" endlocal
 
-:omega
+exit /B %ERROR_CODE%

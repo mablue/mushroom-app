@@ -10,46 +10,36 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      
-    - name: Set up JDK 17
-      uses: actions/setup-java@v5
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        
-    - name: Install Android SDK and NDK
-      run: |
-        # Update command-line tools to latest (from 12.0 to 22.0+)
-        SDK="$ANDROID_HOME"
-        if [ -d "$SDK/cmdline-tools/latest-2" ]; then
-          rm -rf "$SDK/cmdline-tools/latest"
-          mv "$SDK/cmdline-tools/latest-2" "$SDK/cmdline-tools/latest"
-        fi
-        
-        # Accept licenses
-        yes | "$SDK/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null 2>&1 || true
-        
-        # Install required packages
-        "$SDK/cmdline-tools/latest/bin/sdkmanager" "platforms;android-34" "build-tools;34.0.0" "ndk;26.1.10909125" "cmake;3.22.1"
-        
-        # Set paths
-        export PATH="$SDK/cmake/3.22.1/bin:$PATH"
-        echo "ANDROID_NDK_HOME=$SDK/ndk/26.1.10909125" >> $GITHUB_ENV
-        echo "PATH=$SDK/cmake/3.22.1/bin:$PATH" >> $GITHUB_ENV
-        
-    - name: Grant execute permission
-      run: chmod +x ./gradlew
-      
-    - name: Build debug APK
-      run: ./gradlew assembleDebug
-      
-    - name: Upload APK
-      uses: actions/upload-artifact@v4
-      with:
-        name: app-debug
-        path: app/build/outputs/apk/debug/app-debug.apk        name: app-debug
-        path: app/build/outputs/apk/debug/app-debug.apk
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v5
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Install Android SDK and NDK
+        run: |
+          SDK="$ANDROID_HOME"
+          if [ -d "$SDK/cmdline-tools/latest-2" ]; then
+            rm -rf "$SDK/cmdline-tools/latest"
+            mv "$SDK/cmdline-tools/latest-2" "$SDK/cmdline-tools/latest"
+          fi
+          yes | "$SDK/cmdline-tools/latest/bin/sdkmanager" --licenses || true
+          "$SDK/cmdline-tools/latest/bin/sdkmanager" "platforms;android-34" "build-tools;34.0.0" "ndk;26.1.10909125" "cmake;3.22.1"
+          echo "ANDROID_NDK_HOME=$SDK/ndk/26.1.10909125" >> $GITHUB_ENV
+          echo "PATH=$SDK/cmake/3.22.1/bin:$PATH" >> $GITHUB_ENV
+
+      - name: Grant execute permission
+        run: chmod +x ./gradlew
+
+      - name: Build debug APK
+        run: ./gradlew assembleDebug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug
+          path: app/build/outputs/apk/debug/app-debug.apk
